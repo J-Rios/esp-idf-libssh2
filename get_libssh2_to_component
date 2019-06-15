@@ -1,0 +1,36 @@
+LIBSSH2_REPO_URL="https://github.com/libssh2/libssh2"
+LIBSSH2_VERSION="libssh2-1.8.0"
+
+
+PWD=`pwd`
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+cd $SCRIPTPATH
+rm -rf full_libssh2_repo
+mkdir full_libssh2_repo
+
+cd full_libssh2_repo
+git clone $LIBSSH2_REPO_URL
+cd libssh2
+git checkout $LIBSSH2_VERSION
+
+mkdir -p $SCRIPTPATH/components/libssh2
+rm -rf $SCRIPTPATH/components/libssh2/*
+cp -a include $SCRIPTPATH/components/libssh2/
+cp -a src $SCRIPTPATH/components/libssh2/
+rm -f $SCRIPTPATH/components/libssh2/src/.gitignore
+rm -f $SCRIPTPATH/components/libssh2/src/*.in
+
+cat > $SCRIPTPATH/components/libssh2/component.mk << ENDOFFILE
+#
+# Component Makefile
+#
+COMPONENT_SRCDIRS := ./src
+COMPONENT_ADD_INCLUDEDIRS := ./src ./include
+ENDOFFILE
+
+cd $SCRIPTPATH
+rm -rf full_libssh2_repo
+cp -a $SCRIPTPATH/libssh2_config.h $SCRIPTPATH/components/libssh2/src/
+
+cd $PWD
