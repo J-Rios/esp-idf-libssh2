@@ -1,5 +1,5 @@
 LIBSSH2_REPO_URL="https://github.com/libssh2/libssh2"
-LIBSSH2_VERSION="libssh2-1.8.0"
+LIBSSH2_VERSION="libssh2-1.9.0"
 
 
 PWD=`pwd`
